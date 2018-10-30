@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class ConnectFourConsole {
     
     public static void prt(String s) {
         System.out.println(s);
@@ -26,7 +26,7 @@ public class Main {
             gs.dropPiece(drophere,pnum);
             if (gs.checkWin(pnum)) {
                 gs.displayState();
-                prt("Congrats, Player "+pnum+"!!!");
+                prt("Congrats, Player "+pnum+"!!!\nYou win.");
                 quit = true;
             }
         }

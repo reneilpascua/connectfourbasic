@@ -25,6 +25,7 @@ public class GameState {
             }
             System.out.printf("\n");
         }
+        System.out.printf("\n");
     }
     
     public int dropPiece(int col, int playerNum) {
@@ -38,110 +39,124 @@ public class GameState {
                 | checkDownDiag1(player)
                 | checkDownDiag2(player)
                 | checkUpDiag1(player)
-                | checkUpDiag2(player));
+                | checkUpDiag2(player)
+                );
     }
     
     public boolean checkCols(int player) {
-        for (int c = 0; c<numcols; c++) {
+        // column by column
+        for (int c=0; c<numcols; c++) {
             int consec = 0;
-            for (int r = 0; r<numrows; r++) {
-                if(consec>=4) {
-                    return true;
-                } else if (boardArr[r][c] == player) {
+            for (int r=0; r<numrows; r++) {
+                if (boardArr[r][c] == player) {
                     consec++;
                 } else {
                     consec = 0;
                 }
-            }
-        }
-        return false;
-    }
-    
-    public boolean checkRows(int player) {
-        for (int r=0; r<numrows; r++) {
-            int consec = 0;
-            for (int c=0; c<numcols; c++) {
                 if (consec>=4) {
                     return true;
-                } else if (boardArr[r][c] == player) {
-                    consec++;
-                } else {
-                    consec = 0;
-                }
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * downward diagonal (\) from first column
-     */
-    public boolean checkDownDiag1(int player) {
-        for (int d=0; d<numrows; d++) {
-            int consec = 0;
-            for (int e=0; e<numcols && (d+e)<numrows ; e++) {
-                if (consec >= 4) {
-                    return true;
-                } else if (boardArr[d+e][e] == player) {
-                    consec++;
-                } else {
-                    consec = 0;
                 }
             }
         }
         
         return false;
     }
-    public boolean checkDownDiag2(int player) {
-        for (int d=1; d<numcols; d++) {
-            int consec = 0;
-            for (int e=0; e<numrows && (d+e)<numcols; e++) {
-                if (consec >=4) {
-                    return true;
-                } else if (boardArr[e][d+e] == player) {
+    
+    public boolean checkRows(int player) {
+        // row by row
+        for (int r=0; r<numrows; r++) {
+            int consec=0;
+            for (int c=0; c<numcols; c++) {
+                if (boardArr[r][c] == player) {
                     consec++;
                 } else {
                     consec=0;
                 }
-                
+                if(consec>=4) {
+                    return true;
+                }
             }
         }
+        
         return false;
     }
     
-    /**
-     * up diagonals (/) from first column
-     */
-    public boolean checkUpDiag1(int player) {
-        for (int d=numrows-1; d>=0; d--) {
-            int consec =0;
-            for (int e=0; e<numcols && (d-e)>=0; e++) {
+    public boolean checkDownDiag1(int player) {
+        // check downdiagonals (\) with tops at column 0
+        for (int sr=0; sr<numrows; sr++) {
+            int consec=0;
+            for (int c=0; c<numcols && (sr+c)<numrows; c++) {
+                if (boardArr[sr+c][c] ==player) {
+                    consec++;
+                } else {
+                    consec=0;
+                }
                 if (consec>=4) {
                     return true;
-                } else if (boardArr[d-e][e] == player) {
-                    consec++;
-                } else {
-                    consec=0;
                 }
             }
         }
-        return false;
-    }
-    public boolean checkUpDiag2(int player) {
-        for (int d=1; d<numcols; d++) {
-            int consec = 0;
-            int iter=0;
-            for (int e=numrows-1; e>=0 && d+iter < numcols ; e--,iter++) {
-                if (consec >=4) {
-                    return true;
-                } else if (boardArr[e][d+iter] == player) {
-                    consec++;
-                } else {
-                    consec=0;
-                }
-            }
-        }
+        
         return false;
     }
     
+    public boolean checkDownDiag2(int player) {
+        // check downdiagonals (\) with tops at row 0
+        for (int sc=1; sc<numcols; sc++) {
+            int consec=0;
+            for(int r=0; r<numrows && (sc+r) < numcols; r++) {
+                if (boardArr[r][sc+r]==player) {
+                    consec++;
+                } else {
+                    consec=0;
+                }
+                if (consec>=4) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean checkUpDiag1(int player) {
+        // check updiags (/) with bottoms at column 0
+        for (int sr= numrows-1; sr>=0 ; sr--) {
+            int consec=0;
+            for (int c=0; c<numcols && (sr-c)>=0; c++) {
+                if (boardArr[sr-c][c] == player) {
+                    consec++;
+                } else {
+                    consec=0;
+                }
+                if (consec>=4) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean checkUpDiag2(int player) {
+        //check updiags (/) with bottoms at last row
+        for (int sc=1; sc<numcols; sc++) {
+            int consec=0;
+            int lastrow = numrows-1;
+            for (int r=lastrow; r>=0 && (sc+lastrow-r)<numcols; r--) {
+                if (boardArr[r][sc+lastrow-r] == player) {
+                    consec++;
+                } else {
+                    consec=0;
+                }
+                if (consec>=4) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+        
 }
