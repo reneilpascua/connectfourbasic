@@ -1,3 +1,4 @@
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class Slot extends javafx.scene.shape.Circle {
@@ -6,6 +7,10 @@ public class Slot extends javafx.scene.shape.Circle {
     
     public Slot(double r, Color c) {
         super(r, c);
+        setOnMouseClicked(this::click);
     }
     
+    public void click(MouseEvent m) {
+        
+    }
 }
